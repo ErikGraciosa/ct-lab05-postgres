@@ -19,14 +19,16 @@ describe('app tests', () => {
       .send({
         title: 'Firepower',
         manufacturer: 'Williams',
-        manufacturerYear: 1980,
+        manufactureryear: 1980,
         multiball: true
       });
-
+    console.log(response.body);
     expect(response.body).toEqual({
-      id: '1',
-      color: 'red',
-      type: 'truck'
+        id: '1',
+        title: 'Firepower',
+        manufacturer: 'Williams',
+        manufactureryear: '1980',
+        multiball: true
     });
   });
 

@@ -4,7 +4,7 @@ CREATE TABLE pinballs (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title TEXT NOT NULL,
     manufacturer TEXT NOT NULL,
-    manufacturerYear BIGINT,
+    manufactureryear VARCHAR(256) NOT NULL,
     multiball BOOLEAN
 );
 
