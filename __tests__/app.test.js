@@ -31,8 +31,4 @@ describe('app tests', () => {
         multiball: true
     });
   });
-
-  
-
-  
 });
