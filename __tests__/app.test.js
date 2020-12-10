@@ -44,7 +44,7 @@ describe('app tests', () => {
     
     const id = 1;
     const response = await request(app)
-      .get(`/${id}`);
+      .get(`/pinballs/${id}`);
       
     expect(response.body).toEqual({
         id: '1',
@@ -54,4 +54,38 @@ describe('app tests', () => {
         multiball: true
     });
   });
+
+  it('updates a pinball machine using /:id req.params.id', async() => {
+    await request(app)
+      .post('/pinballs')
+      .send({
+        title: 'Fish Tales',
+        manufacturer: 'Williams',
+        manufactureryear: 20000,
+        multiball: true
+      });
+    
+    const id = 1;
+    await request(app)
+      .put(`/pinballs/${id}`)
+      .send({
+        title: 'Grand Prix',
+        manufacturer: 'Williams',
+        manufactureryear: '1964',
+        multiball: false
+      });
+    
+    const response = await request(app)
+        .get(`/pinballs/${id}`); 
+
+    expect(response.body).toEqual({
+        id: '1',
+        title: 'Grand Prix',
+        manufacturer: 'Williams',
+        manufactureryear: '1964',
+        multiball: false
+    });
+  });
+
+
 });
