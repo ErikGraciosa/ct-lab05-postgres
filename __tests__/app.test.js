@@ -13,7 +13,7 @@ describe('app tests', () => {
     return pool.end();
   });
 
-  it('creates a toy via POST', async() => {
+  it('creates a pinball machine via POST', async() => {
     const response = await request(app)
       .post('/pinballs')
       .send({
@@ -22,7 +22,30 @@ describe('app tests', () => {
         manufactureryear: 1980,
         multiball: true
       });
-    console.log(response.body);
+    
+    expect(response.body).toEqual({
+        id: '1',
+        title: 'Firepower',
+        manufacturer: 'Williams',
+        manufactureryear: '1980',
+        multiball: true
+    });
+  });
+
+  it('gets a pinball machine via id in params', async() => {
+    await request(app)
+      .post('/pinballs')
+      .send({
+        title: 'Firepower',
+        manufacturer: 'Williams',
+        manufactureryear: 1980,
+        multiball: true
+      });
+    
+    const id = 1;
+    const response = await request(app)
+      .get(`/${id}`);
+      
     expect(response.body).toEqual({
         id: '1',
         title: 'Firepower',
