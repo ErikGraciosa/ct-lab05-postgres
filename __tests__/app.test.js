@@ -66,7 +66,7 @@ describe('app tests', () => {
       });
     
     const id = 1;
-    await request(app)
+    const response = await request(app)
       .put(`/pinballs/${id}`)
       .send({
         title: 'Grand Prix',
@@ -74,9 +74,6 @@ describe('app tests', () => {
         manufactureryear: '1964',
         multiball: false
       });
-    
-    const response = await request(app)
-        .get(`/pinballs/${id}`); 
 
     expect(response.body).toEqual({
         id: '1',
@@ -87,5 +84,43 @@ describe('app tests', () => {
     });
   });
 
+  it('deletes a row in pinballs based on :id', async() => {
+    await request(app)
+      .post('/pinballs')
+      .send({
+        title: 'Grand Lizard',
+        manufacturer: 'Williams',
+        manufactureryear: 5555,
+        multiball: true
+      });
+
+    await request(app)
+      .post('/pinballs')
+      .send(
+      {
+        title: 'F14 Tomcat',
+        manufacturer: 'Williams',
+        manufactureryear: 1988,
+        multiball: true
+      }
+    );
+      
+    const id = 1;
+    await request(app)
+      .delete(`/pinballs/${id}`);
+    
+    const response = await request(app)
+        .get('/pinballs/'); 
+
+    expect(response.body).toEqual([
+        {
+            id: '2',
+            title: 'F14 Tomcat',
+            manufacturer: 'Williams',
+            manufactureryear: '1988',
+            multiball: true
+        }
+    ]);
+  });
 
 });
