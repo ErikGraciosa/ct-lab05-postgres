@@ -32,6 +32,46 @@ describe('app tests', () => {
     });
   });
 
+  it('get all pinball machines', async() => {
+    await request(app)
+      .post('/pinballs')
+      .send({
+        title: 'Jokerz',
+        manufacturer: 'Williams',
+        manufactureryear: 1990,
+        multiball: true
+      });
+    await request(app)
+      .post('/pinballs')
+      .send({
+        title: 'Magic',
+        manufacturer: 'Stern',
+        manufactureryear: 1976,
+        multiball: false
+      });
+    
+    const response = await request(app)
+      .get('/pinballs/');
+
+    expect(response.body).toEqual([
+        {
+            id: '1',
+            title: 'Jokerz',
+            manufacturer: 'Williams',
+            manufactureryear: '1990',
+            multiball: true
+        },
+        {
+            id: '2',
+            title: 'Magic',
+            manufacturer: 'Stern',
+            manufactureryear: '1976',
+            multiball: false
+        }
+    ]);
+  });
+
+
   it('gets a pinball machine via id in params', async() => {
     await request(app)
       .post('/pinballs')
